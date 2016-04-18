@@ -48,4 +48,32 @@ describe 'Hand' do
 		end
 	end
 
+	describe '#full_house' do
+		it 'has 3 of a kind and a pair' do
+			hand = Hand.new(%w(2C 2D 9C 9D 9S))
+			expect(hand.full_house).to eq(7)
+		end
+	end
+
+	describe '#four_of_a_kind' do
+		it 'has 4 identical numbuers' do
+			hand = Hand.new(%w(2C 2D 2S 2H 9S))
+			expect(hand.four_of_a_kind).to eq(8)
+		end
+	end
+
+	describe '#straight_flush' do
+		it 'has 5 consecutive numbers with all the same type' do
+			hand = Hand.new(%w(2C 3C 6C 5C 4C))
+			expect(hand.straight_flush).to eq(9)
+		end
+	end
+
+	describe '#royal_flush' do
+		it 'has 5 consecutive numbers with all the same type' do
+			hand = Hand.new(%w(KC AC QC TC JC))
+			expect(hand.royal_flush).to eq(10)
+		end
+	end
+
 end

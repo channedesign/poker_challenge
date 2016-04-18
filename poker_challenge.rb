@@ -95,10 +95,6 @@ class Hand
     num.map { |n| value.has_key?(n.to_s.to_sym) ? value[n.to_s.to_sym] : n.to_i }
   end
 
-  def compare_dup_key
-    dup?.keys.max
-  end
-
   def score
     if royal_flush == 10
       10
@@ -126,6 +122,11 @@ end
 p1_win = 0
 p2_win = 0
 no_win = 0
+
+###############################
+# disabeling File for testing #
+###############################
+
 # File.open("./poker.txt").map { |line|
 #   a = line.split(/\W/)
 #   p1 = Hand.new(a[0..4])
