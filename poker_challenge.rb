@@ -1,11 +1,8 @@
 
-
-Card = Struct.new :num, :type
-
 class Hand
   attr_accessor :cards
 
-  RANKINGS = { high_card: 1, one_pair: 200, two_pairs: 300, three_of_a_kind: 400, straight: 500,
+  RANKINGS = { one_pair: 200, two_pairs: 300, three_of_a_kind: 400, straight: 500,
                 flush: 600, full_house: 700, four_of_a_kind: 800, straight_flush: 900, royal_flush: 1000 }
 
 
@@ -39,7 +36,7 @@ class Hand
   end
 
   def full_house
-    three_of_a_kind? && num_of_dup == 2
+    three_of_a_kind && two_pairs
   end
 
   def four_of_a_kind 
@@ -125,12 +122,9 @@ File.open("./poker.txt").map { |line|
   a = line.split(/\W/)
   p1 = Hand.new(a[0..4])
   p2 = Hand.new(a[5..9]) 
+ 
   if p1.score > p2.score
     p1_win += 1
-  elsif p1.score < p2.score
-    p2_win += 1
-  elsif p1.score == p2.score
-    no_win += 1
   end
 }
 puts p1_win
