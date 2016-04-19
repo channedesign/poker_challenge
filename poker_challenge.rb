@@ -1,61 +1,80 @@
+
+
+Card = Struct.new :num, :type
+
 class Hand
   attr_accessor :cards
 
-  RANKINGS = { high_card: 1, one_pair: 2, two_pairs: 3, three_of_a_kind: 4, straight: 5,
-                flush: 6, full_house: 7, four_of_a_kind: 8, straight_flush: 9, royal_flush: 10 }
+  RANKINGS = { high_card: 1, one_pair: 200, two_pairs: 300, three_of_a_kind: 400, straight: 500,
+                flush: 600, full_house: 700, four_of_a_kind: 800, straight_flush: 900, royal_flush: 1000 }
 
 
 
   def initialize(cards)
+    # @cards = cards
     @cards = cards
   end
 
   def high_card
-    if dup?.empty?
-      num_value.max
-    else
-      dup?.keys.max
-    end
+    # if dup?.empty?
+    #   num_value.max
+    # else
+    #   dup?.keys.max
+    # end
+    num_value.inject(:+)
   end
 
+  # def highest_card
+  #   num_value.max
+  # end
+
+  # def second_highest_card
+  #   num_value.sort[-2]
+  # end
+  # def third_highest_card
+  #   num_value.sort[-3]
+  # end
+  # def fourth_highest_card
+  #   num_value.sort[-4]
+  # end
+  # def fifth_highest_card
+  #   num_value.sort[-5]
+  # end
+
   def one_pair
-    num_of_dup == 1 ? RANKINGS[:one_pair] : 0
+    num_of_dup == 1
   end
 
   def two_pairs
-    num_of_dup == 2 ? RANKINGS[:two_pairs] : 0
+    num_of_dup == 2
   end
 
   def three_of_a_kind 
-    three_of_a_kind?.count == 1 ? RANKINGS[:three_of_a_kind] : 0
+    three_of_a_kind?.count == 1
   end
 
   def straight 
-    straight? ? RANKINGS[:straight] : 0
+    straight?
   end
 
   def flush
-    flush? ? RANKINGS[:flush] : 0
+    flush?
   end
 
   def full_house
-    three_of_a_kind? && num_of_dup == 2 ? RANKINGS[:full_house] : 0
+    three_of_a_kind? && num_of_dup == 2
   end
 
   def four_of_a_kind 
-    four_of_a_kind?.count == 1 ? RANKINGS[:four_of_a_kind] : 0
+    num_value.group_by { |i| i }.select { |k, v| v.size == 4 }.count == 1
   end
 
   def straight_flush
-    straight? && flush? ? RANKINGS[:straight_flush] : 0
+    straight? && flush?
   end
 
   def royal_flush
-    num_value.inject(:+) == 60 && flush? ? RANKINGS[:royal_flush] : 0
-  end
-
-  def four_of_a_kind?
-    num_value.group_by { |i| i }.select { |k, v| v.size == 4 }
+    num_value.inject(:+) == 60 && flush?
   end
 
   def flush?
@@ -87,7 +106,7 @@ class Hand
   end
 
   def array 
-    cards.map {|i| i.split("") }.flatten
+    @cards.map {|i| i.split("") }.flatten
   end
 
   def num_value
@@ -96,65 +115,58 @@ class Hand
   end
 
   def score
-    if royal_flush == 10
-      10
-    elsif straight_flush == 9
-      9
-    elsif four_of_a_kind == 8
-      8
-    elsif full_house == 7
-      7
-    elsif flush == 6
-      6
-    elsif straight == 5
-      5
-    elsif three_of_a_kind == 4
-      4
-    elsif two_pairs == 3
-      3
-    elsif one_pair == 2
-      2
+    if royal_flush
+      RANKINGS[:royal_flush] + high_card
+    elsif straight_flush
+      RANKINGS[:straight_flush] + high_card
+    elsif four_of_a_kind
+      RANKINGS[:four_of_a_kind] + high_card
+    elsif full_house
+      RANKINGS[:full_house] + high_card
+    elsif flush
+      RANKINGS[:flush] + high_card
+    elsif straight
+      RANKINGS[:straight] + high_card
+    elsif three_of_a_kind
+      RANKINGS[:three_of_a_kind] + high_card
+    elsif two_pairs
+      RANKINGS[:two_pairs] + high_card
+    elsif one_pair
+      RANKINGS[:one_pair] + high_card
     else
-      0
+      high_card
     end
   end
 end
 p1_win = 0
-p2_win = 0
-no_win = 0
 
 ###############################
 # disabeling File for testing #
 ###############################
 
-# File.open("./poker.txt").map { |line|
-#   a = line.split(/\W/)
-#   p1 = Hand.new(a[0..4])
-#   p2 = Hand.new(a[5..9])
+File.open("./poker.txt").map { |line|
+  a = line.split(/\W/)
+  p1 = Hand.new(a[0..4])
+  p2 = Hand.new(a[5..9])
   
-#   # puts "------------------------------------------"
-#   # print "Player One: #{p1.cards}"
-#   # puts
-#   # print "Player Two: #{p2.cards}"
-#   # puts
-#   # puts "------------------------------------------"
+  # puts "------------------------------------------"
+  # print "Player One: #{p1.cards}"
+  # puts
+  # print "Player Two: #{p2.cards}"
+  # puts
+  # puts "------------------------------------------"
   
-#   if p1.score > p2.score
-#     p1_win += 1
-#   elsif p1.score < p2.score
-#     p2_win += 1
-#   elsif p1.score == p2.score
-#     if p1.high_card < p2.high_card
-#       p2_win += 1
-#     elsif p1.high_card > p2.high_card
-#       p1_win += 1
-#     else
-#       no_win += 1
-#     end
-#   end
+  if p1.score > p2.score
+    p1_win += 1
+  elsif p1.score < p2.score
+    p2_win += 1
+  elsif p1.score == p2.score
+    no_win += 1
+  end
 
-# }
-# puts p1_win
-# puts p2_win
-# puts no_win
+}
+puts p1_win
+
+
+
 
