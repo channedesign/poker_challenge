@@ -140,9 +140,9 @@ describe 'Hand' do
 		end
 
 		context 'with three_of_a_kind' do
-			it 'wins with three_of_a_kind over pairs' do
+			it 'wins with three_of_a_kind over pair' do
 				p1 = Hand.new(%w(3S AS AH AD TC))
-				p2 = Hand.new(%w(3S 3D AH AD 9C))
+				p2 = Hand.new(%w(3S 2D AH AD 9C))
 
 				expect(p1.score).to be > p2.score
 			end
@@ -152,7 +152,8 @@ describe 'Hand' do
 			it 'wins with a straight over three_of_a_kind' do
 				p1 = Hand.new(%w(3S 4S 7H 6D 5C))
 				p2 = Hand.new(%w(3S AS AH AD TC))
-
+				puts p1.score
+				puts p2.score
 				expect(p1.score).to be > p2.score
 			end
 

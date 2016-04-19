@@ -16,7 +16,7 @@ class Hand
   end
 
   def one_pair
-    num_of_dup == 1
+    num_of_dup == 1 && !three_of_a_kind
   end
 
   def two_pairs
@@ -36,7 +36,7 @@ class Hand
   end
 
   def full_house
-    three_of_a_kind? && two_pairs
+    three_of_a_kind? && num_of_dup == 2
   end
 
   def four_of_a_kind 
@@ -126,6 +126,8 @@ File.open("./poker.txt").map { |line|
   if p1.score > p2.score
     p1_win += 1
   end
+
+ 
 }
 puts p1_win
 
