@@ -72,11 +72,11 @@ class Hand
   end
 
   def num 
-    @card ||= array.map { |n| array.index(n).even? ? n : nil}.compact
+    array.map { |n| array.index(n).even? ? n : nil}.compact
   end
 
   def type
-    @card ||= array.map { |n| array.index(n).odd? ? n : nil}.compact 
+    array.map { |n| array.index(n).odd? ? n : nil}.compact 
   end
 
   def array 
