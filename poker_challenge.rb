@@ -36,7 +36,7 @@ class Hand
   end
 
   def full_house
-    three_of_a_kind && two_pairs
+    three_of_a_kind? && two_pairs
   end
 
   def four_of_a_kind 
@@ -72,15 +72,15 @@ class Hand
   end
 
   def num 
-    array.map { |n| array.index(n).even? ? n : nil}.compact
+    @card ||= array.map { |n| array.index(n).even? ? n : nil}.compact
   end
 
   def type
-    array.map { |n| array.index(n).odd? ? n : nil}.compact 
+    @card ||= array.map { |n| array.index(n).odd? ? n : nil}.compact 
   end
 
   def array 
-    @cards.map {|i| i.split("") }.flatten
+    @card ||= cards.map {|i| i.split("") }.flatten
   end
 
   def num_value
