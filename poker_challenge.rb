@@ -11,35 +11,12 @@ class Hand
 
 
   def initialize(cards)
-    # @cards = cards
     @cards = cards
   end
 
   def high_card
-    # if dup?.empty?
-    #   num_value.max
-    # else
-    #   dup?.keys.max
-    # end
     num_value.inject(:+)
   end
-
-  # def highest_card
-  #   num_value.max
-  # end
-
-  # def second_highest_card
-  #   num_value.sort[-2]
-  # end
-  # def third_highest_card
-  #   num_value.sort[-3]
-  # end
-  # def fourth_highest_card
-  #   num_value.sort[-4]
-  # end
-  # def fifth_highest_card
-  #   num_value.sort[-5]
-  # end
 
   def one_pair
     num_of_dup == 1
@@ -147,15 +124,7 @@ p1_win = 0
 File.open("./poker.txt").map { |line|
   a = line.split(/\W/)
   p1 = Hand.new(a[0..4])
-  p2 = Hand.new(a[5..9])
-  
-  # puts "------------------------------------------"
-  # print "Player One: #{p1.cards}"
-  # puts
-  # print "Player Two: #{p2.cards}"
-  # puts
-  # puts "------------------------------------------"
-  
+  p2 = Hand.new(a[5..9]) 
   if p1.score > p2.score
     p1_win += 1
   elsif p1.score < p2.score
@@ -163,7 +132,6 @@ File.open("./poker.txt").map { |line|
   elsif p1.score == p2.score
     no_win += 1
   end
-
 }
 puts p1_win
 
